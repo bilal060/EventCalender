@@ -1,0 +1,47 @@
+.ReactModal__Overlay.ReactModal__Overlay--after-open {
+    z-index: 2;
+}
+
+textarea.form-control.textArea {
+    width: 98%;
+    margin: 10px 0;
+    font-size: 14px;
+    border-radius: 2px;
+    resize: none;
+    padding: 5px 0px 0px 5px;
+}
+
+input.date {
+    display: block;
+    border-radius: 0px;
+    font-size: 12px;
+    font-family: initial;
+    padding: 0 12px;
+    margin-bottom: 10px;
+    border: 1px solid;
+    height: 25px;
+}
+
+.modelBtn {
+    height: 25px;
+    margin: 0 5px;
+    background-color: #404040c9;
+    color: #ffff;
+    width: 15%;
+    float: right;
+    border: none;
+}
+
+.fc-content {
+    padding: 5px;
+}
+
+.react-datepicker-wrapper {
+    width: 98%;
+    display: grid;
+}
+
+input.datepicker {
+    width: 98%;
+    padding: 10px;
+}
