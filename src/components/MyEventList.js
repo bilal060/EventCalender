@@ -34,11 +34,11 @@ export default class MyEventList extends React.Component {
             return event;
         })
     };
-    
+
     // Setting interval to show notification to user 10 min before.
     // Each notification will be showed to user 1 time.
     componentDidMount() {
-        this.interval = setInterval(() => this.notify(), 1000*60);
+        this.interval = setInterval(() => this.notify(), 1000*30);
     }
 
     componentWillUnmount() {
