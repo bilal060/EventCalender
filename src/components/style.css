@@ -45,3 +45,11 @@ input.datepicker {
     width: 98%;
     padding: 10px;
 }
+
+.download-btn {
+    color: #ffff;
+    background-color: #1d5d90;
+    height: 30px;
+    width: 14%;
+    font-size: 15px;
+}

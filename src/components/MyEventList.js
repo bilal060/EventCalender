@@ -17,13 +17,6 @@ export default class MyEventList extends React.Component {
             modalIsOpen: false,
             modalDetailIsOpen: false
         };
-        this.openModal = this.openModal.bind(this);
-        this.closeModal = this.closeModal.bind(this);
-        this.handleSubmit = this.handleSubmit.bind(this);
-        this.showEvent = this.showEvent.bind(this);
-        this.removeEvent = this.removeEvent.bind(this);
-        this.changeEventDate = this.changeEventDate.bind(this);
-
     }
 
     notify = () => {
@@ -33,7 +26,7 @@ export default class MyEventList extends React.Component {
                 var now = moment(new Date()); //todays date
                 var end = moment(event.date); // another date
                 var duration = moment.duration(end.diff(now));
-                if(duration.asMinutes()>0 && duration.asMinutes() < 40){
+                if(duration.asMinutes()>0 && duration.asMinutes() < 10){
                     this.props.onNotifyEvent(event.id);
                     alert("Your schedule event is going to start in "+ parseInt(duration.asMinutes(), 10) + "minutes.")
                 }
@@ -41,9 +34,11 @@ export default class MyEventList extends React.Component {
             return event;
         })
     };
-
+    
+    // Setting interval to show notification to user 10 min before.
+    // Each notification will be showed to user 1 time.
     componentDidMount() {
-        this.interval = setInterval(() => this.notify(), 1000*60*10);
+        this.interval = setInterval(() => this.notify(), 1000*60);
     }
 
     componentWillUnmount() {
@@ -157,10 +152,13 @@ export default class MyEventList extends React.Component {
 
         return (
             <div>
-                <button style={add_btn} onClick={this.openModal}>+</button>
-                <CSVLink data={csv_data} headers={headers}>
-                    Download me
-                </CSVLink>
+                <button style={add_btn} onClick={this.openModal.bind(this)}>+</button>
+                {myEvents.length > 0 &&
+                    <CSVLink data={csv_data} headers={headers}>
+                        <button className='download-btn'> Export CSV</button>
+                    </CSVLink>
+                }
+
                 <CreateModel
                     {...this.props}
                     state={this.state}
@@ -173,6 +171,7 @@ export default class MyEventList extends React.Component {
                     handleInputChange = { this.handleInputChange.bind(this)}
                     changeDate = {this.changeDate.bind(this)}
                 />
+
                 <UpdateModel
                     {...this.props}
                     state={this.state}
@@ -189,18 +188,14 @@ export default class MyEventList extends React.Component {
                 <div style={{height:'300px'}}>
                     <FullCalendar
                         id="my-calender-event"
-                        contentHeight= '300px'
-                        defaultDate={'2018-11-23'}
-                        navLinks={true}
-                        editable={true}
                         eventLimit={true}
                         timeFormat= 'H(:mm)A'
                         events={this.props.myEvents}
-                        eventDrop={(eventBj, date) => this.changeEventDate(eventBj, date)}
-                        drop={(date, jsEvent, ui, resourceId) => this.changeEventDate}
-                        select={(start, end, allDay) => {
-                            this.handleSelect(start, end, allDay);
-                        }}
+                        // eventDrop={(eventBj, date) => this.changeEventDate(eventBj, date)}
+                        // drop={(date, jsEvent, ui, resourceId) => this.changeEventDate}
+                        // select={(start, end, allDay) => {
+                        //     this.handleSelect(start, end, allDay);
+                        // }}
                         eventClick = {(calEvent, jsEvent, view, resourceObj) => {this.showEvent(calEvent)}}
                     /></div>
             </div>
