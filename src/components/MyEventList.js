@@ -1,7 +1,6 @@
 import React from 'react';
 import MyCalender from './MyCalender';
 import { CSVLink } from "react-csv";
-import 'fullcalendar-reactwrapper/dist/css/fullcalendar.min.css';
 import Modal from 'react-modal';
 import './style.css';
 import CreateModel from './models/CreateModel';
@@ -154,37 +153,40 @@ export default class MyEventList extends React.Component {
                 <button style={add_btn} onClick={this.openModal.bind(this)}>+</button>
                 {myEvents.length > 0 &&
                     <CSVLink style={{padding: '0'}} data={csv_data} headers={CsvHeaers}>
-                        <a style={{color: '#ffff', backgroundColor: 'rgb(176, 130, 61)'}} className='previous'> Export CSV</a>
+                        <button style={{height:'34px', fontSize:'14px', color: '#ffff', backgroundColor: 'rgb(176, 130, 61)'}} className='previous'> Export CSV</button>
                     </CSVLink>
                 }
                 <a onClick={this.changeCalenderDate.bind(this, this.props.currentDate, +1)} className="next">Next &raquo;</a>
                 <a onClick={this.changeCalenderDate.bind(this, this.props.currentDate, -1)} className="previous">&laquo; Previous</a>
+                {this.state.modalIsOpen &&
+                    <CreateModel
+                        {...this.props}
+                        state={this.state}
+                        openModal={this.openModal.bind(this)}
+                        closeModal={this.closeModal.bind(this)}
+                        handleSubmit={this.handleSubmit.bind(this)}
+                        showEvent={this.showEvent.bind()}
+                        removeEvent={this.removeEvent.bind(this)}
+                        changeEventDate={this.changeEventDate.bind(this)}
+                        handleInputChange={this.handleInputChange.bind(this)}
+                        changeDate={this.changeDate.bind(this)}
+                    />
+                }
+                {this.state.modalDetailIsOpen &&
+                    <UpdateModel
+                        {...this.props}
+                        state={this.state}
+                        openModal = {this.openModal.bind(this)}
+                        closeModal = {this.closeModal.bind(this)}
+                        handleSubmit = {this.handleSubmit.bind(this)}
+                        showEvent = {this.showEvent.bind()}
+                        removeEvent = { this.removeEvent.bind(this)}
+                        changeEventDate = { this.changeEventDate.bind(this)}
+                        handleInputChange = { this.handleInputChange.bind(this)}
+                        changeDate = {this.changeDate.bind(this)}
+                    />
+                }
 
-                <CreateModel
-                    {...this.props}
-                    state={this.state}
-                    openModal = {this.openModal.bind(this)}
-                    closeModal = {this.closeModal.bind(this)}
-                    handleSubmit = {this.handleSubmit.bind(this)}
-                    showEvent = {this.showEvent.bind()}
-                    removeEvent = { this.removeEvent.bind(this)}
-                    changeEventDate = { this.changeEventDate.bind(this)}
-                    handleInputChange = { this.handleInputChange.bind(this)}
-                    changeDate = {this.changeDate.bind(this)}
-                />
-
-                <UpdateModel
-                    {...this.props}
-                    state={this.state}
-                    openModal = {this.openModal.bind(this)}
-                    closeModal = {this.closeModal.bind(this)}
-                    handleSubmit = {this.handleSubmit.bind(this)}
-                    showEvent = {this.showEvent.bind()}
-                    removeEvent = { this.removeEvent.bind(this)}
-                    changeEventDate = { this.changeEventDate.bind(this)}
-                    handleInputChange = { this.handleInputChange.bind(this)}
-                    changeDate = {this.changeDate.bind(this)}
-                />
 
                 <div style={{height:'300px'}}>
                     <MyCalender

@@ -1,6 +1,5 @@
 import React from 'react';
 import Event from './Event'
-import 'fullcalendar-reactwrapper/dist/css/fullcalendar.min.css';
 import './style.css';
 import {monthNames} from '../Utils/enum';
 import {

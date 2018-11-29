@@ -1,6 +1,5 @@
 import { connect } from 'react-redux';
 import {createMyEvent, deleteMyEvent, updateMyEvent, notifyEvent, changeMonth} from '../actions';
-import 'fullcalendar-reactwrapper/dist/css/fullcalendar.min.css';
 import MyEventList from '../components/MyEventList';
 
 const mapStateToProps = state => {
