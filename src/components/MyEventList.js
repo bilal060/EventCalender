@@ -1,12 +1,19 @@
 import React from 'react';
-import FullCalendar from 'fullcalendar-reactwrapper';
+import MyCalender from './MyCalender';
 import { CSVLink } from "react-csv";
 import 'fullcalendar-reactwrapper/dist/css/fullcalendar.min.css';
 import Modal from 'react-modal';
 import './style.css';
 import CreateModel from './models/CreateModel';
 import UpdateModel from './models/UpdateModel';
-var moment = require('moment');
+import {CsvHeaers} from './../Utils/enum'
+import {
+    makeCsvDate,
+    changeCalenderdateClick,
+    compareTime,
+    convertTimeToISOString,
+    convertTimeToString
+} from './../Utils/util'
 
 export default class MyEventList extends React.Component {
     constructor(props) {
@@ -23,9 +30,7 @@ export default class MyEventList extends React.Component {
         let {myEvents} = this.props;
         myEvents.map(event => {
             if(event.notify === false){
-                var now = moment(new Date()); //todays date
-                var end = moment(event.date); // another date
-                var duration = moment.duration(end.diff(now));
+                var duration = compareTime(event.date);
                 if(duration.asMinutes()>0 && duration.asMinutes() < 10){
                     this.props.onNotifyEvent(event.id);
                     alert("Your schedule event is going to start in "+ parseInt(duration.asMinutes(), 10) + "minutes.")
@@ -77,7 +82,7 @@ export default class MyEventList extends React.Component {
     handleSubmit = e => {
         e.preventDefault();
         let localState = this.state;
-        localState.date = moment(this.state.date).toISOString();
+        localState.date = convertTimeToISOString(this.state.date);
         if (this.state.title.trim() && this.state.date.trim()) {
             if(this.state.id!=='' && this.state.id!==undefined){
                 this.props.onUpdateMyEvent(localState);
@@ -103,6 +108,11 @@ export default class MyEventList extends React.Component {
         });
     };
 
+    changeCalenderDate = (date,nextMonth) => {
+        let newDate = changeCalenderdateClick(date, nextMonth);
+        this.props.changeMonth(newDate);
+    };
+
     changeEventDate = (eventBj, date) => {
         let newDate = new Date(eventBj.date);
         newDate.setDate(newDate.getDate() + date.days());
@@ -116,7 +126,7 @@ export default class MyEventList extends React.Component {
     };
 
     changeDate = (date) => {
-        let GTMdate = moment(date).format();
+        let GTMdate = convertTimeToString(date);
         this.setState({date: GTMdate})
     };
 
@@ -124,6 +134,7 @@ export default class MyEventList extends React.Component {
         const add_btn = {
                 backgroundColor:'red',
                 color: '#ffff',
+                float: 'left',
                 position: 'fixed',
                 bottom: '22px',
                 right: '22px',
@@ -134,30 +145,20 @@ export default class MyEventList extends React.Component {
                 fontSize: '25px'
         };
         Modal.setAppElement('#root');
-        let {myEvents} = this.props;
-        let csv_data = [];
 
-        if(myEvents){
-            myEvents.map(event => {
-                csv_data.push({id:event.id, description: event.title, date: moment(event.date).format('YYYY-MM-DD HH:SS')})
-                event.date = moment(event.date).format();
-                return event;
-            });
-        }
-        let headers = [
-            { label: "Event ID", key: "id" },
-            { label: "Event Description", key: "description" },
-            { label: "Event Date", key: "date" }
-        ];
+        let {myEvents} = this.props;
+        let csv_data = makeCsvDate(myEvents);
 
         return (
             <div>
                 <button style={add_btn} onClick={this.openModal.bind(this)}>+</button>
                 {myEvents.length > 0 &&
-                    <CSVLink data={csv_data} headers={headers}>
-                        <button className='download-btn'> Export CSV</button>
+                    <CSVLink style={{padding: '0'}} data={csv_data} headers={CsvHeaers}>
+                        <a style={{color: '#ffff', backgroundColor: 'rgb(176, 130, 61)'}} className='previous'> Export CSV</a>
                     </CSVLink>
                 }
+                <a onClick={this.changeCalenderDate.bind(this, this.props.currentDate, +1)} className="next">Next &raquo;</a>
+                <a onClick={this.changeCalenderDate.bind(this, this.props.currentDate, -1)} className="previous">&laquo; Previous</a>
 
                 <CreateModel
                     {...this.props}
@@ -186,18 +187,19 @@ export default class MyEventList extends React.Component {
                 />
 
                 <div style={{height:'300px'}}>
-                    <FullCalendar
-                        id="my-calender-event"
-                        eventLimit={true}
-                        timeFormat= 'H(:mm)A'
-                        events={this.props.myEvents}
-                        // eventDrop={(eventBj, date) => this.changeEventDate(eventBj, date)}
-                        // drop={(date, jsEvent, ui, resourceId) => this.changeEventDate}
-                        // select={(start, end, allDay) => {
-                        //     this.handleSelect(start, end, allDay);
-                        // }}
-                        eventClick = {(calEvent, jsEvent, view, resourceObj) => {this.showEvent(calEvent)}}
-                    /></div>
+                    <MyCalender
+                        {...this.props}
+                        state={this.state}
+                        openModal = {this.openModal.bind(this)}
+                        closeModal = {this.closeModal.bind(this)}
+                        handleSubmit = {this.handleSubmit.bind(this)}
+                        showEvent = {this.showEvent.bind(this)}
+                        removeEvent = { this.removeEvent.bind(this)}
+                        changeEventDate = { this.changeEventDate.bind(this)}
+                        handleInputChange = { this.handleInputChange.bind(this)}
+                        changeDate = {this.changeDate.bind(this)}
+                    />
+                </div>
             </div>
         );
     }

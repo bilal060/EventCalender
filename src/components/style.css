@@ -50,6 +50,149 @@ input.datepicker {
     color: #ffff;
     background-color: #1d5d90;
     height: 30px;
-    width: 14%;
     font-size: 15px;
+}
+
+
+#calendar {
+    width: 100%;
+}
+
+#calendar a {
+    color: #8e352e;
+    text-decoration: none;
+}
+
+#calendar ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    width: 100%;
+}
+
+#calendar li {
+    display: block;
+    float: left;
+    width:14.342%;
+    padding: 5px;
+    box-sizing:border-box;
+    border: 1px solid #ccc;
+    margin-right: -1px;
+    margin-bottom: -1px;
+}
+
+#calendar ul.weekdays {
+    height: 40px;
+    background: #572e8e;
+}
+
+#calendar ul.weekdays li {
+    text-align: center;
+    text-transform: uppercase;
+    line-height: 20px;
+    border: none !important;
+    padding: 10px 6px;
+    color: #fff;
+    font-size: 13px;
+}
+
+#calendar .days li {
+    height: 140px;
+}
+
+#calendar .days li:hover {
+    background: #d3d3d3;
+}
+
+#calendar .date {
+    text-align: center;
+    margin-bottom: 1px;
+    padding: 6px;
+    background: #6b1488;
+    color: #ffffff;
+    width: 15px;
+    border-radius: 50%;
+    float: right;
+    font-size: 11px;
+}
+
+#calendar .event {
+    clear: both;
+    display: block;
+    font-size: 13px;
+    border-radius: 4px;
+    padding: 2px;
+    margin-bottom: 2px;
+    line-height: 10px;
+    background: #0d6161;
+    border: 1px solid #095658;
+    color: #fbfeff;
+    text-decoration: none;
+}
+
+#calendar .event-desc {
+    color: #fff;
+    margin: 3px 0 7px 0;
+    text-decoration: none;
+}
+
+#calendar .other-month {
+    background: #9fa2a0;
+    color: #666;
+}
+
+@media(max-width: 768px) {
+
+    #calendar .weekdays, #calendar .other-month {
+        display: none;
+    }
+
+    #calendar li {
+        height: auto !important;
+        border: 1px solid #ededed;
+        width: 100%;
+        padding: 10px;
+        margin-bottom: -1px;
+    }
+
+    #calendar .date {
+        float: none;
+    }
+}
+
+a {
+    float: right;
+    text-decoration: none;
+    display: inline-block;
+    padding: 8px 16px;
+}
+
+a:hover {
+    background-color: #ddd;
+    color: black;
+}
+
+.previous {
+    background-color: #f1f1f1;
+    color: black;
+}
+
+.next {
+    background-color: #4CAF50;
+    color: white;
+}
+
+.event {
+    cursor: pointer;
+}
+
+.hasEvent {
+    background-color: #b3a05d;
+}
+.current-date {
+    background-color: #967a6a !important;
+}
+
+html {
+    padding: 0px 0px 60px 0px;
 }

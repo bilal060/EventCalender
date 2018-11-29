@@ -18,14 +18,14 @@ export default function myEventsReducer(state = [], action) {
             return myEvent;
         });
 
-      case NOTIFY_EVENT:
-          return state.map(myEvent => {
-              if(myEvent.id === action.payload.id){
-                  myEvent.notify = true;
-                  return myEvent;
-              }
+    case NOTIFY_EVENT:
+      return state.map(myEvent => {
+          if(myEvent.id === action.payload.id){
+              myEvent.notify = true;
               return myEvent;
-          });
+          }
+          return myEvent;
+      });
     default:
       return state;
   }

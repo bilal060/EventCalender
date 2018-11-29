@@ -1,5 +1,5 @@
 import uuidv4 from 'uuid/v4';
-import { ADD_MY_EVENT, DELETE_MY_EVENT, UPDATE_MY_EVENT, NOTIFY_EVENT } from './types';
+import { ADD_MY_EVENT, DELETE_MY_EVENT, UPDATE_MY_EVENT, NOTIFY_EVENT, CHANGE_MONTH } from './types';
 
 export const createMyEvent = ({ title, date,notify }) => ({
   type: ADD_MY_EVENT,
@@ -31,5 +31,12 @@ export const notifyEvent = id => ({
     type: NOTIFY_EVENT,
     payload: {
         id
+    }
+});
+
+export const changeMonth = date => ({
+    type: CHANGE_MONTH,
+    payload: {
+        date
     }
 });
