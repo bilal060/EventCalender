@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import {createMyEvent, deleteMyEvent, updateMyEvent, notifyEvent, changeMonth} from '../actions';
+import {createMyEvent, deleteMyEvent, updateMyEvent, notifyEvent, changeMonth, setLocalStorageToRedux} from '../actions';
 import MyEventList from '../components/MyEventList';
 
 const mapStateToProps = state => {
@@ -25,7 +25,11 @@ const mapDispatchToProps = dispatch => {
     },
     changeMonth: date => {
       dispatch(changeMonth(date));
+    },
+    onSetLocalStorageToRedux: events => {
+        dispatch(setLocalStorageToRedux(events));
     }
+
 
   };
 };

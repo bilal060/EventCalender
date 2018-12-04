@@ -5,7 +5,11 @@ import Modal from 'react-modal';
 import './style.css';
 import CreateModel from './models/CreateModel';
 import UpdateModel from './models/UpdateModel';
-import {CsvHeaers} from './../Utils/enum'
+import {
+    CsvHeaers,
+    CURRENT_EVENTS_LIST,
+    CURRENT_DATE
+} from './../Utils/enum'
 import {
     makeCsvDate,
     changeCalenderdateClick,
@@ -47,6 +51,19 @@ export default class MyEventList extends React.Component {
 
     componentWillUnmount() {
         clearInterval(this.interval);
+
+    }
+    componentWillMount() {
+        let currDate = localStorage.getItem(CURRENT_DATE);
+        if(currDate){
+            this.props.changeMonth(JSON.parse(currDate));
+        }
+
+        let currEvents = localStorage.getItem(CURRENT_EVENTS_LIST);
+        if(currEvents){
+            this.props.onSetLocalStorageToRedux(JSON.parse(currEvents));
+        }
+
     }
 
     openDetailModal() {
@@ -129,6 +146,11 @@ export default class MyEventList extends React.Component {
         this.setState({date: GTMdate})
     };
 
+    saveEventsToLocalStorage(){
+        localStorage.setItem(CURRENT_DATE,JSON.stringify(this.props.currentDate));
+        localStorage.setItem(CURRENT_EVENTS_LIST,JSON.stringify(this.props.myEvents));
+    }
+
     render() {
         const add_btn = {
                 backgroundColor:'red',
@@ -147,6 +169,7 @@ export default class MyEventList extends React.Component {
 
         let {myEvents} = this.props;
         let csv_data = makeCsvDate(myEvents);
+        this.saveEventsToLocalStorage();
 
         return (
             <div>

@@ -1,4 +1,4 @@
-import { ADD_MY_EVENT, DELETE_MY_EVENT, UPDATE_MY_EVENT, NOTIFY_EVENT } from '../actions/types';
+import { ADD_MY_EVENT, DELETE_MY_EVENT, UPDATE_MY_EVENT, NOTIFY_EVENT, SET_LOCAL_STORAGE_TO_STATE } from '../actions/types';
 
 export default function myEventsReducer(state = [], action) {
   switch (action.type) {
@@ -26,6 +26,9 @@ export default function myEventsReducer(state = [], action) {
           }
           return myEvent;
       });
+
+      case SET_LOCAL_STORAGE_TO_STATE:
+          return action.payload.events;
     default:
       return state;
   }

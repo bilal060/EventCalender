@@ -10,3 +10,5 @@ export const CsvHeaers = [
     { label: "Event Date", key: "date" }
 ];
 
+export const CURRENT_DATE = 'calender.currentDate';
+export const CURRENT_EVENTS_LIST = 'calender.eventList';
